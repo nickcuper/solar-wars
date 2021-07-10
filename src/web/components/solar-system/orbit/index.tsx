@@ -18,8 +18,8 @@ export const Orbit: React.FC<OrbitProps> = (props) => {
     vPoints.push(vPoints[0]);
     const lineGeometry = new BufferGeometry().setFromPoints(vPoints);
     return (
-        <lineLoop geometry={lineGeometry}>
-            <lineBasicMaterial attach="material" color="#fffff" linewidth={110} />
+        <lineLoop rotation={[Math.PI / 2, 0, 0]} geometry={lineGeometry}>
+            <lineBasicMaterial attach="material" color="#fffff" linewidth={1} />
         </lineLoop>
     );
 };

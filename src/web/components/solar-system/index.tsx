@@ -27,6 +27,7 @@ interface StarOption {
 interface PlanetOption {
     type: string;
     size: number;
+    hasRings: boolean;
     position: [x: number, y: number, z: number];
 }
 
@@ -43,7 +44,7 @@ const masses = data.planets.map((planet) => planet.m);
 
 const xInitial = tensor2d(xInitialArray, [numberOfPlanets, 3]);
 const vInitial = tensor2d(vInitialArray, [numberOfPlanets, 3]);
-const G = scalar(data.G);
+const G = scalar(2.95912208286e-4);
 
 const calcA = (x) => {
     const unstackedX = unstack(x);
@@ -68,7 +69,6 @@ const calcA = (x) => {
 };
 
 const SolarSystem: React.FC<SolarSystemOptions> = (props) => {
-    const refs = new Map<string, typeof useRef>();
     const { camera } = useThree();
     const [pos, setPos] = useState(xInitialArray);
     const x = useRef(xInitial);
@@ -108,16 +108,11 @@ const SolarSystem: React.FC<SolarSystemOptions> = (props) => {
         <>
             <group>
                 <OrbitControls args={[camera]} />
-                <ambientLight color={0x888888} />
-                <pointLight />
+                <ambientLight color={0x888888} intensity={0.7} />
+                <pointLight intensity={0.8} />
                 {props.stars.map((starProps, index) => {
-                    const ref = useRef();
-                    //@ts-ignore
-                    refs.set(starProps.type, ref);
                     return (
                         <Star
-                            //@ts-ignore
-                            ref={ref}
                             key={`star-${index}`}
                             //@ts-ignore
                             position={pos[index]}
@@ -127,21 +122,16 @@ const SolarSystem: React.FC<SolarSystemOptions> = (props) => {
                     );
                 })}
                 {props.planets.map((planetProps, index) => {
-                    const ref = useRef();
-                    //@ts-ignore
-                    refs.set(planetProps.type, ref);
                     return (
                         <Planet
-                            //@ts-ignore
-                            ref={ref}
                             xR={(index + 1.5) * 4}
                             zR={(index + 1.5) * 2}
                             key={`planet-${index}`}
                             //@ts-ignore
                             position={pos[index + 1]}
-                            // position={planetProps.position}
                             type={planetProps.type}
                             size={data.planets[index + 1].r * 800}
+                            hasRings={planetProps?.hasRings || false}
                         />
                     );
                 })}
