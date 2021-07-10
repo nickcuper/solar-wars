@@ -1,0 +1,122 @@
+{
+  "env": {
+    "es6": true,
+    "commonjs": true,
+    "browser": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "impliedStrict": true,
+      "legacyDecorators": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "globals": {
+    "process": true,
+    "it": true,
+    "describe": true,
+    "io": true
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jsx-control-statements/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "jsx-control-statements",
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    }
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "no-console": 0,
+    "no-undef" : 0,
+    "no-case-declarations": 0,
+    "no-empty": 0,
+    "object-curly-spacing": 0,
+    "import/no-dynamic-require": 0,
+    "global-require": 0,
+    "func-names": 0,
+    "no-plusplus": 0,
+    "no-param-reassign": 0,
+    "no-restricted-properties": 0,
+    "no-template-curly-in-string": 0,
+    "arrow-parens": ["warn", "always"],
+    "prefer-destructuring": 0,
+    "no-restricted-globals": 0,
+    "indent": 0,
+    "no-underscore-dangle": 0,
+    "no-bitwise": 0,
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "_" }],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"]
+      }
+    ],
+    "@typescript-eslint/array-type": 0,
+    "@typescript-eslint/ban-ts-comment": 0,
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-object-literal-type-assertion": 0,
+
+    "react/jsx-indent": ["error", 4],
+    "react/jsx-indent-props": ["error", 4],
+    "react/jsx-one-expression-per-line": 0,
+    "react/prefer-stateless-function": [
+      0,
+      {
+        "ignorePureComponents": true
+      }
+    ],
+    "react/forbid-prop-types": 0,
+    "react/jsx-no-undef": [
+      2,
+      {
+        "allowGlobals": true
+      }
+    ],
+    "react/destructuring-assignment": 0,
+    "react/no-did-update-set-state": 0,
+    "react/sort-comp": 0,
+//    "react-hooks/rules-of-hooks": "error",
+//    "react-hooks/exhaustive-deps": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".jsx", ".tsx"]
+      }
+    ],
+    "react/no-array-index-key": 0,
+    "react/jsx-props-no-spreading": "error",
+    "react/no-danger": 0,
+    "react/static-property-placement": 0,
+    "react/require-default-props": 0,
+
+    "jsx-a11y/media-has-caption": 0,
+    "jsx-a11y/anchor-is-valid": 0,
+    "jsx-a11y/interactive-supports-focus": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+//    "jsx-a11y/no-static-element-interactions": [
+//      "error",
+//      {
+//        "handlers": ["onClick"]
+//      }
+//    ],
+
+    "jsx-control-statements/jsx-jcs-no-undef": 0
+  }
+}
