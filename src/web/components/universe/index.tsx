@@ -9,11 +9,13 @@ export const Universe: React.FC = (props): JSX.Element => {
     const [mwTexture] = useLoader(TextureLoader, [milkyWay, stars]);
     return (
         <>
-            <mesh ref={mesh}>
-                <sphereGeometry attach="geometry" args={[100, 32, 32]} />
-                <meshPhongMaterial attach="material" map={mwTexture} side={BackSide} />
+            <group>
+                <mesh ref={mesh}>
+                    <sphereGeometry attach="geometry" args={[100, 32, 32]} />
+                    <meshPhongMaterial attach="material" map={mwTexture} side={BackSide} />
+                </mesh>
                 {props.children}
-            </mesh>
+            </group>
         </>
     );
 };

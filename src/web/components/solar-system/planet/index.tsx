@@ -2,15 +2,16 @@ import React, { useRef } from 'react';
 import { TextureLoader } from 'three';
 import { useLoader } from '@react-three/fiber';
 import marsPic from './assets/2k_mars.jpeg';
-import moonPic from './assets/2k_moon.jpeg';
+import saturnPic from './assets/2k_saturn.jpeg';
 import neptunePic from './assets/2k_neptune.jpeg';
 import earthPic from './assets/2k_earth_daymap.jpeg';
 import { Orbit } from '../orbit';
-import { Rings } from './rings';
+import { Rings } from '../rings';
+import { Moon } from '../moon';
 
 export const PlanetType = {
     MARS: marsPic,
-    MOON: moonPic,
+    SATURN: saturnPic,
     NEPTUNE: neptunePic,
     EARTH: earthPic,
 };
@@ -18,7 +19,8 @@ export const PlanetType = {
 interface PlanetOption {
     type: string;
     size: number;
-    hasRings: boolean;
+    hasRings?: boolean;
+    hasMoon?: boolean;
     position: [x: number, y: number, z: number];
     xR: number;
     zR: number;
@@ -39,7 +41,14 @@ export const Planet: React.FC<PlanetOption> = (props) => {
                         bumpScale={0.001}
                     />
                 </mesh>
-                <pointLight color={0xffffff} intensity={0.01} />
+                {props.hasMoon && (
+                    <Moon
+                        distanceX={props.position[0] - props.position[0] / 0.9}
+                        size={props.size * 0.4}
+                        position={props.position}
+                    />
+                )}
+                <pointLight color={0xffffff} intensity={0.05} position={props.position} />
                 {props.hasRings && <Rings position={props.position} r={props.size} />}
                 <Orbit xRadius={props.xR} zRadius={props.zR} />
             </group>

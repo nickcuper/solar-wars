@@ -7,10 +7,10 @@ export const App: React.FC = () => {
     const stars = [];
     const planets = [];
     stars.push({ type: StarType.SUN, position: [0, 0, 10] });
-    planets.push({ type: PlanetType.NEPTUNE, position: [10, 0, 0], hasRings: true });
-    planets.push({ type: PlanetType.MOON, position: [2, 0, 5] });
+    planets.push({ type: PlanetType.NEPTUNE, position: [10, 0, 0] });
+    planets.push({ type: PlanetType.SATURN, position: [2, 0, 5], hasRings: true });
     planets.push({ type: PlanetType.MARS, position: [8, 0, 5] });
-    planets.push({ type: PlanetType.EARTH, position: [6, 0, 5] });
+    planets.push({ type: PlanetType.EARTH, position: [6, 0, 5], hasMoon: true });
 
     return (
         <Canvas

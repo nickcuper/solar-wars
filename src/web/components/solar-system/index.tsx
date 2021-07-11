@@ -28,6 +28,7 @@ interface PlanetOption {
     type: string;
     size: number;
     hasRings: boolean;
+    hasMoon: boolean;
     position: [x: number, y: number, z: number];
 }
 
@@ -132,6 +133,7 @@ const SolarSystem: React.FC<SolarSystemOptions> = (props) => {
                             type={planetProps.type}
                             size={data.planets[index + 1].r * 800}
                             hasRings={planetProps?.hasRings || false}
+                            hasMoon={planetProps?.hasMoon || false}
                         />
                     );
                 })}
