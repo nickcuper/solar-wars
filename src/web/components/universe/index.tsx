@@ -7,6 +7,7 @@ import stars from './assets/2k_stars.jpeg';
 export const Universe: React.FC = (props): JSX.Element => {
     const mesh = useRef();
     const [mwTexture] = useLoader(TextureLoader, [milkyWay, stars]);
+    console.log('Universe');
     return (
         <>
             <group>

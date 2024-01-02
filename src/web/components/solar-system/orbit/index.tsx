@@ -1,5 +1,5 @@
 import React from 'react';
-import { BufferGeometry, Vector3 } from 'three';
+import { BufferGeometry, DoubleSide, Vector3 } from 'three';
 
 interface OrbitProps {
     xRadius: number;
@@ -15,11 +15,13 @@ export const Orbit: React.FC<OrbitProps> = (props) => {
         vPoints.push(new Vector3(x, 0, z));
     }
 
-    vPoints.push(vPoints[0]);
+    // vPoints.push(vPoints[0]);
     const lineGeometry = new BufferGeometry().setFromPoints(vPoints);
     return (
-        <lineLoop rotation={[Math.PI / 2, 0, 0]} geometry={lineGeometry}>
-            <lineBasicMaterial attach="material" color="#fffff" linewidth={1} />
+        <lineLoop geometry={lineGeometry}>
+            <mesh rotation={[Math.PI / 2, 0, 0]}>
+                <lineBasicMaterial attach="material" color="#fffff" transparent side={DoubleSide} />
+            </mesh>
         </lineLoop>
     );
 };

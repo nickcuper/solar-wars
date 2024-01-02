@@ -29,7 +29,9 @@ node_modules/
 logs/*.log
 
 # Idea
-.idea/
+.idea/*
 .vscode/
 
 /build
+
+.DS_Store

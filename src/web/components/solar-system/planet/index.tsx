@@ -5,6 +5,8 @@ import marsPic from './assets/2k_mars.jpeg';
 import saturnPic from './assets/2k_saturn.jpeg';
 import neptunePic from './assets/2k_neptune.jpeg';
 import earthPic from './assets/2k_earth_daymap.jpeg';
+import uranusPic from './assets/2k_uranus.jpeg';
+import jupiterPic from './assets/2k_jupiter.jpeg';
 import { Orbit } from '../orbit';
 import { Rings } from '../rings';
 import { Moon } from '../moon';
@@ -14,17 +16,9 @@ export const PlanetType = {
     SATURN: saturnPic,
     NEPTUNE: neptunePic,
     EARTH: earthPic,
+    URANUS: uranusPic,
+    JUPITER: jupiterPic,
 };
-
-interface PlanetOption {
-    type: string;
-    size: number;
-    hasRings?: boolean;
-    hasMoon?: boolean;
-    position: [x: number, y: number, z: number];
-    xR: number;
-    zR: number;
-}
 
 export const Planet: React.FC<PlanetOption> = (props) => {
     const ref = useRef();
@@ -48,7 +42,7 @@ export const Planet: React.FC<PlanetOption> = (props) => {
                         position={props.position}
                     />
                 )}
-                <pointLight color={0xffffff} intensity={0.05} position={props.position} />
+                {/*<pointLight color={0xffffff} intensity={0.05} position={props.position} />*/}
                 {props.hasRings && <Rings position={props.position} r={props.size} />}
                 <Orbit xRadius={props.xR} zRadius={props.zR} />
             </group>

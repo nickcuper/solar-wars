@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Planet, PlanetType } from './planet';
 import { Star, StarType } from './star';
-import { OrbitControls } from '@react-three/drei';
-import { useThree } from '@react-three/fiber';
+// import { OrbitControls } from '@react-three/drei';
+//import { useThree } from '@react-three/fiber';
 import {
     tensor2d,
     scalar,
@@ -17,20 +17,7 @@ import {
     dispose,
 } from '@tensorflow/tfjs';
 import data from './force/data.json';
-
-interface StarOption {
-    type: string;
-    size: number;
-    position: [x: number, y: number, z: number];
-}
-
-interface PlanetOption {
-    type: string;
-    size: number;
-    hasRings: boolean;
-    hasMoon: boolean;
-    position: [x: number, y: number, z: number];
-}
+import { useFrame } from '@react-three/fiber';
 
 interface SolarSystemOptions {
     stars: StarOption[];
@@ -69,15 +56,15 @@ const calcA = (x) => {
     return stack(accelerations);
 };
 
-const SolarSystem: React.FC<SolarSystemOptions> = (props) => {
-    const { camera } = useThree();
+const Planets: React.FC<{ planets: PlanetOption[] }> = (props) => {
     const [pos, setPos] = useState(xInitialArray);
+    const groupRef = useRef();
     const x = useRef(xInitial);
     const v = useRef(vInitial);
     const dt = 0.1;
     const dtTensor = useMemo(() => scalar(dt), [dt]);
 
-    const compute = useCallback(() => {
+    useEffect(() => {
         const [newX, newV] = tidy(() => {
             const a = calcA(x.current);
             const newX = x.current.add(mul(v.current, dtTensor));
@@ -99,29 +86,16 @@ const SolarSystem: React.FC<SolarSystemOptions> = (props) => {
             setPos(newPos);
         });
     }, [x, v, dtTensor]);
-    useEffect(() => {
-        requestAnimationFrame(() => {
-            compute();
-        });
-    }, [pos, compute]);
-
+    useFrame(() => {
+        if (groupRef.current) {
+            //@ts-ignore
+            //   groupRef.current.render();
+        }
+    }, 1);
+    console.log('Planets');
     return (
         <>
-            <group>
-                <OrbitControls args={[camera]} />
-                <ambientLight color={0x888888} intensity={0.7} />
-                <pointLight intensity={0.8} />
-                {props.stars.map((starProps, index) => {
-                    return (
-                        <Star
-                            key={`star-${index}`}
-                            //@ts-ignore
-                            position={pos[index]}
-                            type={starProps.type}
-                            size={0.2}
-                        />
-                    );
-                })}
+            <group ref={groupRef}>
                 {props.planets.map((planetProps, index) => {
                     return (
                         <Planet
@@ -131,12 +105,70 @@ const SolarSystem: React.FC<SolarSystemOptions> = (props) => {
                             //@ts-ignore
                             position={pos[index + 1]}
                             type={planetProps.type}
-                            size={data.planets[index + 1].r * 800}
+                            size={data.planets[index + 1].r * 1000}
                             hasRings={planetProps?.hasRings || false}
                             hasMoon={planetProps?.hasMoon || false}
                         />
                     );
                 })}
+            </group>
+        </>
+    );
+};
+
+const SolarSystem: React.FC<SolarSystemOptions> = (props) => {
+    // const [pos, setPos] = useState(xInitialArray);
+    // const x = useRef(xInitial);
+    // const v = useRef(vInitial);
+    // const dt = 0.1;
+    // const dtTensor = useMemo(() => scalar(dt), [dt]);
+    //
+    // const compute = useCallback(() => {
+    //     const [newX, newV] = tidy(() => {
+    //         const a = calcA(x.current);
+    //         const newX = x.current.add(mul(v.current, dtTensor));
+    //         const newV = v.current.add(mul(a, dtTensor));
+    //
+    //         return [newX, newV];
+    //     });
+    //
+    //     dispose([x.current, v.current]);
+    //     //@ts-ignore
+    //     x.current = newX;
+    //     //@ts-ignore
+    //     v.current = newV;
+    //
+    //     newX.array().then((newPos) => {
+    //         //@ts-ignore
+    //         //console.log('newPos', newPos);
+    //         //@ts-ignore
+    //         setPos(newPos);
+    //     });
+    // }, [x, v, dtTensor]);
+    // useEffect(() => {
+    //     requestAnimationFrame(() => {
+    //         compute();
+    //     });
+    // }, [pos, compute]);
+    console.log('SolarSystem');
+    return (
+        <>
+            <group>
+                {/*<OrbitControls args={[camera]} />*/}
+                {/*<ambientLight color={0x888888} intensity={0.7} />*/}
+                {/*<pointLight intensity={0.8} />*/}
+                {props.stars.map((starProps, index) => {
+                    return (
+                        <Star
+                            key={`star-${index}`}
+                            //@ts-ignore
+                            position={[0, 0, 0]}
+                            type={starProps.type}
+                            size={1}
+                        />
+                    );
+                })}
+                <Planets planets={props.planets} />
             </group>
         </>
     );
